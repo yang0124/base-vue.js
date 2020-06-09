@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 川建国 -->
+        <ul>
+            <li v-for="(item,index) in filterList" :key="index">
+                <h3>{{item.title}}</h3>
+                <p>{{item.intro}}</p>
+            </li>
+        </ul>
+    </div>
+</body>
+<script>
+    new Vue({
+        el:'#app', //初始化vue实例的容器
+        data:{   //vue实例中需要使用到的数据包
+           list:[
+               {
+                   title:'美国最新消息1',
+                   intro:'特朗普最懂经济、特朗普最懂市场、特朗普最懂前端'
+               },
+               {
+                   title:'美国最新消息2',
+                   intro:'特朗普最懂经济、特朗普最懂市场、特朗普最懂前端'
+               }
+           ]
+        },
+        computed: {
+            filterList(){
+                return this.list.map((obj)=>{
+                    let reg = /特朗普/g
+                    obj.intro = obj.intro.replace(reg,'川建国')
+                    // obj.intro = reg.replace('川建国')
+                    return obj
+                })
+            }
+        },
+    })
+</script>
+</html>

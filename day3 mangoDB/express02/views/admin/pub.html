@@ -1,0 +1,62 @@
+{% extends 'adminLayout.html' %}
+
+{% block main %}
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">Quick Example</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <div class="card-body">
+        <div class="form-group">
+            <label for="exampleInputEmail1">文章标题</label>
+            <input type="text" class="form-control" placeholder="请输入文章标题" value="2019年的20个小目标">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">作者</label>
+            <input type="text" class="form-control" placeholder="请输入作者名称" value="爱佛僧">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">时间</label>
+            <input type="text" class="form-control" placeholder="请输入时间" value="2019-12-04">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">文章简介</label>
+            <input type="text" class="form-control" placeholder="请输入文章简介" value="有一个亿的小目标">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">海报图</label>
+            <input type="text" class="form-control" placeholder="请输入海报图" value="">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">文章详情</label>
+            <input type="text" class="form-control" placeholder="请输入文章详情" value="有一个亿的小目标，泡汤了">
+        </div>
+        
+    </div>
+    <!-- /.card-body -->
+
+    <div class="card-footer">
+        <button type="button" class="btn btn-primary">Submit</button>
+    </div>
+</div>
+<script>
+    $('.btn-primary').click(function(){
+        $.ajax({
+            url:'/admin/pub',
+            method:'post',
+            data:{
+                'title':$('.card-body input').eq(0).val(),
+                'author':$('.card-body input').eq(1).val(),
+                'time':$('.card-body input').eq(2).val(),
+                'intro':$('.card-body input').eq(3).val(),
+                'imgurl':$('.card-body input').eq(4).val(),
+                'content':$('.card-body input').eq(5).val()
+            },
+            success:(res)=>{
+                console.log(res)
+            }
+        })
+    })
+</script>
+{% endblock %}

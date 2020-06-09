@@ -1,0 +1,38 @@
+@import 'iconfont.css';
+.my-msg{
+    padding: 20px;
+    background: #a1b699;
+    border: 1px solid #535852;
+    color: #FFF;
+    border-radius: 6px;
+    width: 300px;
+    position: relative;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+.my-msg.text-center{
+    justify-content: center;
+}
+.my-msg .icon-guanbi{
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%)
+}
+.my-msg.info{
+    background: #a1b699;
+    border-color: #535852;
+}
+.my-msg.success{
+    background: #69d154;
+    border-color: #49e62a
+}
+.my-msg.warning {
+    background: #d7e238;
+    border-color: #e6e32a
+}
+.my-msg.error {
+    background: #c52f2f;
+    border-color: #640d0d
+}

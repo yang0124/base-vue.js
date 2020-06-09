@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="vue.js"></script>
+    <style>
+        .box{
+            width: 100px;
+            height: 100px;
+            border: 1px solid red;
+        }
+        .box.active{
+            background: blue
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div>{{msg}}</div>
+        <button type="button" v-on:click="handleChange">控制box元素</button>
+        <div class="box" v-if="isActive">
+
+        </div>
+        <div 
+        class="box" 
+        v-on:click="handleBg" 
+        v-bind:class="isAct?'active':''">
+
+        </div>
+    </div>
+</body>
+<script>
+    new Vue({
+        el:'#app', //初始化vue实例的容器
+        data:{   //vue实例中需要使用到的数据包
+           msg:'hello world',
+           isActive:false,
+           isAct:false  //用来控制box元素是否添加active名称
+        },
+        methods:{
+            handleChange(){
+                // this //指向vue实例对象
+                this.isActive = !this.isActive
+            },
+            handleBg(){
+                this.isAct = !this.isAct
+            }
+        }
+    })
+</script>
+</html>

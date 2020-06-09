@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="swiper.min.css">
+    <script src="swiper.min.js"></script>
+    <style>
+        body{
+            margin: 0;
+        }
+        .banner{
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div 
+                class="swiper-slide" 
+                v-for="(item,index) in list" 
+                :key="index">
+                    <img class="banner" :src="item.imgUrl" :alt="item.name">
+                </div>
+            </div>
+            <!-- 如果需要分页器 -->
+            <div class="swiper-pagination"></div>
+            
+            <!-- 如果需要导航按钮 -->
+            <!-- <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div> -->
+            
+            <!-- 如果需要滚动条 -->
+            <!-- <div class="swiper-scrollbar"></div> -->
+        </div>
+        {{num}}
+        <button @click="num++">触发num变化</button>
+    </div>
+</body>
+<script src="../vue.js"></script>
+<script src="https://cdn.bootcss.com/axios/0.19.0-beta.1/axios.min.js"></script>
+
+<script>
+    new Vue({
+        el:'#app',
+        data:{
+            num:1,
+            list:[]
+        },
+        created() {
+            let burl = `https://m.maizuo.com/gateway?type=2&cityId=110100&k=5202361`
+            axios({
+                url:burl,
+                method:'get',
+                headers:{
+                    'X-Client-Info': '{"a":"3000","ch":"1002","v":"5.0.4","e":"15761312564462471020750","bc":"110100"}',
+                    'X-Host': 'mall.cfg.common-banner'
+                }
+            }).then((res)=>{
+                console.log(res)
+                this.list = res.data.data
+            })
+        },
+        updated() {
+            console.log('swiper初始化了')
+            new Swiper('.swiper-container',{
+                loop:true,
+                // direction:'vertical',
+                pagination: {
+                    el: '.swiper-pagination',
+                },
+                on:{
+                    slideChange: function () {
+                        console.log(this.activeIndex);
+                    },
+                },
+            })
+        },
+    })
+    
+</script>
+</html>

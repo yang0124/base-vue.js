@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-comp-atible" content="ie=edge">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <comp-a></comp-a>
+        <comp-b></comp-b>
+    </div>
+</body>
+<script>
+    Vue.component('comp-a',{
+        template:`<div>
+                    A组件
+                    <comp-a1></comp-a1>
+                </div>`
+    })
+    Vue.component('comp-a1',{
+        template:`<div>
+                    <button @click="a1Fn">我是A1组件</button>
+                </div>`,
+        methods: {
+            a1Fn(){
+                bus.$emit('my-click',100)
+            }
+        },
+    })
+    Vue.component('comp-b',{
+        data() {
+            return {
+                'money': 1000
+            }
+        },
+        template:`<div>
+                    B组件，银行里有1000块{{money}}
+                    <comp-b1></comp-b1>
+                </div>`,
+        created() {
+            bus.$on('my-click',(m)=>{
+                // alert(11111)
+                this.money = this.money-m
+            })
+        },
+    })
+    Vue.component('comp-b1',{
+        template:`<div>
+                    <button>我是B1组件</button>
+                </div>`,
+        
+    })
+
+    var bus = new Vue()  //事件总线对象
+    new Vue({
+        el:'#app', //初始化vue实例的容器
+        data:{   //vue实例中需要使用到的数据包
+           
+        }
+        
+    })
+</script>
+</html>

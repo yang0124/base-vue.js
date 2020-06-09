@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <my-select :list="skill"></my-select>
+        <my-select :list="time"></my-select>
+    </div>
+
+</body>
+<script src="../vue.js"></script>
+<script>
+    Vue.component('my-select',{
+        props:['list'],
+        data(){
+            return{
+                'msg':'',
+                'isShow':false
+            }
+        },
+        template:`<div class="my-select">
+                    <input type="text" name="" id="" v-model="msg" @focus="handleShow">
+                    <button @click="fn">查询</button>
+                    <ul v-if="isShow">
+                        <li v-for="(item,index) in list" @click="handleCheck(item)">
+                            {{item}}
+                        </li>
+                    </ul>
+                </div>`,
+        methods:{
+            fn(){
+                alert(1111)
+            },
+            handleCheck(str){
+                this.msg = str
+                this.isShow = false
+            },
+            handleShow(){
+                this.isShow = true
+            }
+        }
+    })
+
+    new Vue({
+        el:'#app',
+        data:{
+            skill:['Nodejs','vue','React'],
+            time:['2019-12-11','2019-12-12','2019-12-13']
+        }
+    })
+</script>
+</html>

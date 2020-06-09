@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="vue.js"></script>
+    <style>
+        li{
+            width: 100px;
+            line-height: 40px;
+            text-align: center;
+            background: #d8d8d8;
+            color: #fff;
+            display: inline-block
+        }
+        li.active{
+            background: orange
+        }
+        .cont{
+            width: 300px;
+            height: 300px;
+            border: 1px solid #000
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <ul>
+            <li v-bind:class="isShow?'active':''" v-on:click="handleTab(true)">菜单1</li>
+            <li v-bind:class="isShow?'':'active'" v-on:click="handleTab(false)">菜单2</li>
+        </ul>
+        <div class="cont" v-if="isShow">内容1</div>
+        <div class="cont" v-else>内容2</div>
+    </div>
+</body>
+<script>
+    new Vue({
+        el:'#app',
+        data:{
+            isShow:true
+        },
+        methods: {
+            handleTab1(){
+                this.isShow = true
+            },
+            handleTab2(){
+                this.isShow = false
+            },
+            handleTab(bool){
+                this.isShow = bool
+            }
+        },
+    })
+</script>
+</html>

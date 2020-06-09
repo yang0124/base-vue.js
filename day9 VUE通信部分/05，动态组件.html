@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <button @click="who='comp1'">菜单1</button> 
+        <button @click="who='comp2'">菜单2</button> 
+        <button @click="who='comp3'">菜单3</button> 
+
+        <keep-alive>
+            <component :is="who"></component>
+        </keep-alive>
+    </div>
+</body>
+<script>
+     Vue.component('comp1',{
+        template:`<div @click="changeBg($event)">
+                    1号组件
+                </div>`,
+        methods: {
+            changeBg(ev){
+                ev.target.style.background = 'red'
+            }
+        },
+    })
+    Vue.component('comp2',{
+        template:`<div @click="changeBg($event)">
+                    2号组件
+                </div>`,
+        methods: {
+            changeBg(ev){
+                ev.target.style.background = 'red'
+            }
+        },
+    })
+    Vue.component('comp3',{
+        template:`<div @click="changeBg($event)">
+                    3号组件
+                </div>`,
+        methods: {
+            changeBg(ev){
+                ev.target.style.background = 'red'
+            }
+        },
+    })
+    new Vue({
+        el:'#app', //初始化vue实例的容器
+        data:{   //vue实例中需要使用到的数据包
+           who:'comp1'
+        }
+    })
+</script>
+</html>

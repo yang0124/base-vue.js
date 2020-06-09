@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+    <style>
+        .box{
+            width: 100px;
+            height:100px;
+        }
+        .has-border{
+            border: 10px solid red;
+        }
+        .active{
+            background: blue;
+        }
+    </style>
+</head>
+<body>
+    <!-- {{msg}}  法外之地 -->
+    <div id="app">
+        <!-- 渲染数据相关 -->
+        <div>{{msg}}</div>
+        <div v-html="msg"></div>
+
+        <!-- 指令 -->
+        <div v-if="isShow">v-if</div>
+        <div v-else>v-else</div>
+        <div v-show="isShow">测试v-show</div>
+        <div v-for=""></div>
+        <!-- <div class="box" v-bind:class="三目运算|{}|[]"></div> -->
+        <!-- <div class="box" v-bind:class="[border?'has-border':'',bg?'active':'']"></div> -->
+        <!-- <div class="box" v-bind:class="{'has-border':border,'active':bg}"></div> -->
+
+        <div class="box" :style="mystyle"></div>
+        <div class="box" :style="{border:'10px solid red'}"></div>
+
+        <input type="checkout" v-model="">
+
+        <!-- 事件相关 -->
+        <div v-on:click=""></div>
+        <div @click=""></div>
+        <div @click.stop=""></div>
+
+    </div>
+</body>
+<script>
+    new Vue({  //国家
+        el:'#app',  //领土范围
+        data:{
+            msg:'<h1>Hello world</h1>',
+            isShow:false,
+            border:true,
+            bg:true,
+            mystyle:'background:green;border:1px solid red;'
+        },  //财政部，提供页面数据
+        computed:{},  //审计部门，过滤数据后下发
+        watch:{},   //监察部门，监听页面数据变动
+        methods:{},  //职能部门，教育、110、120
+        created(){}   //历史记录
+    })
+
+</script>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>注册</title>
+    <link rel="stylesheet" href="/public/css/adminlte.min.css">
+    <script src="/public/js/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-lg-offset-4">
+                <div class="form-group">
+                    <label for="">用户名</label>
+                    <input type="text" class="form-control">
+                    <label for="">密码</label>
+                    <input type="password" class="form-control">
+                    <button class="btn btn-primary">注册</button>
+                    <button class="btn btn-info">登录</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    $('.btn-primary').click(function () {
+        regLogin('/admin/reg')
+    })
+
+    $('.btn-info').click(function () {
+        regLogin('/admin/login')
+    })
+
+    function regLogin(url) {
+        $.ajax({
+            url:url,
+            method: 'post',
+            data: {
+                username: $('input').eq(0).val(),
+                pwd: $('input').eq(1).val()
+            },
+            success: function (res) {
+                if(res.msg=='登录成功'){
+                    console.log(res)
+                    localStorage.setItem('token',res.data)
+                }
+                if(res.code==1){
+                    //后续添加其他逻辑（例如：跳转发布文章页面）
+                    location = '/admin'
+                }
+                
+                alert(res.msg)
+            }
+        })
+    }
+</script>
+
+</html>

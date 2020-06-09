@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../vue.js"></script>
+    <style>
+    .pull-right{
+        float: right;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="container">
+            <div class="form-group">
+                <label>姓名</label>
+                <input v-model="name" class="form-control" type="text">
+            </div>
+            <div class="form-group">
+                <label>分数</label>
+                <input v-model="score" class="form-control" type="text">
+            </div>
+            <div class="form-group">
+                <button @click="handleAdd" type="button" class="btn btn-primary">录入</button>
+                <div class="pull-right">
+                    <button @click="stateNum=0" type="button" class="btn " :class="stateNum==0?'btn-info':''">全部学员</button>
+                    <button @click="stateNum=1" type="button" class="btn" :class="stateNum==1?'btn-info':''">及格学员</button>
+                    <button @click="stateNum=2" type="button" class="btn" :class="stateNum==2?'btn-info':''">不及格学员</button>
+                </div>
+            </div>
+
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th>序号</th>
+                    <th>姓名</th>
+                    <th>分数</th>
+                    <th>操作</th>
+                </tr>
+                <!-- 【3】遍历数据包并渲染对应数据 -->
+                <tr v-if="list.length==0">
+                    <td colspan="4" class="text-center">
+                        暂无数据
+                    </td>
+                </tr>
+                <tr v-for="(item,index) in filterList">
+                    <td>{{index}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.score}}</td>
+                    <td>
+                        <button @click="handleDel(index)" class="btn btn-danger btn-xs">删除</button>
+                    </td>
+                </tr>
+            </table>
+            <div class="text-right">
+                <button @click="handleDelAll" class="btn btn-danger">删除全部</button>
+            </div>
+        </div>
+
+    </div>
+</body>
+<script>
+    
+    new Vue({
+        el: '#app',
+        data: {
+            name:'张三丰',
+            score:'100',
+            stateNum:0,   //0 全部  1及格  2不及格
+            list:[
+                {
+                    name:'张三丰',
+                    score:'100'
+                }
+            ]
+        },
+        computed: {
+            filterList(){
+                switch (this.stateNum) {
+                    case 0:
+                        return this.list
+                        break;
+                    case 1:
+                        return this.list.filter((obj)=>{
+                            return obj.score>70
+                        })
+                        break;
+                    case 2:
+                        return this.list.filter((obj)=>{
+                            return obj.score<=70
+                        })
+                    break;
+                    default:
+                        break;
+                }
+            }
+        },
+        methods: {
+            handleAdd(){
+                this.list.push({
+                    name:this.name,
+                    score:this.score
+                })
+            },
+            handleDel(i){ //删除单人成员
+                let conf = confirm('确认删除吗？')
+                if(conf){
+                    this.list.splice(i,1)
+                }
+            },
+            handleDelAll(){ //删除全部
+                let conf = confirm('确认删除全部吗？')
+                if(conf){
+                    this.list=[]
+                }
+            }
+        },
+    })
+</script>
+
+</html>

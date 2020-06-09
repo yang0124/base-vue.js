@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+    <style>
+        .box{
+            width: 200px;
+            height:200px;
+            background: red;
+        }
+        
+        .fade-leave,
+        .fade-enter-to{
+            opacity: 1;
+        }
+        .fade-leave-active,
+        .fade-enter-active{
+            transition: all 2s;
+        }
+        .fade-leave-to,
+        .fade-enter{
+            opacity: 0;
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="app">
+        <button @click="toggleFn">按钮</button>
+        <transition name="fade">
+            <div class="box" v-if="isShow"></div>
+        </transition>
+    </div>
+</body>
+<script>
+    new Vue({
+        el:'#app', //初始化vue实例的容器
+        data:{   //vue实例中需要使用到的数据包
+           isShow:true
+        },
+        methods: {
+            toggleFn(){
+                this.isShow = !this.isShow
+            }
+        },
+    })
+</script>
+</html>

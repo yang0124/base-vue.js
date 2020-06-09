@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+    <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css" rel="stylesheet">
+
+</head>
+<body>
+    <div id="app">
+        <button @click="toggleFn">按钮</button>
+        <!-- <ul> -->
+        <transition-group tag="ul" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+            <li v-for="(item,index) in list" :key="index" v-if="isShow">
+                {{item}}
+            </li>
+        </transition-group>
+        <!-- </ul> -->
+    </div>
+</body>
+<script>
+    new Vue({
+        el:'#app', //初始化vue实例的容器
+        data:{   //vue实例中需要使用到的数据包
+           isShow:true,
+           list:[
+               'transition',
+               '虚拟DOM',
+               'diff算法'
+           ]
+        },
+        methods: {
+            toggleFn(){
+                this.isShow = !this.isShow
+            }
+        },
+    })
+</script>
+</html>

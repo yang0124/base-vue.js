@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <input type="file" name="myImg">
+        <button class="upload-btn" type="button" >上传图片</button>
+    </form>
+    <img src="" alt="">
+</body>
+<script src="http://localhost:3001/public/js/jquery.min.js"></script>
+<script>
+$('.upload-btn').click(function(){
+    $.ajax({
+        url:'http://localhost:3001/admin/upload',
+        method:'post',
+        data:new FormData(document.querySelector('form')),
+        processData:false,
+        contentType:false,
+        cache:false,
+        success:function(res){
+            if(res.code==1){
+                let imgurl = `http://localhost:3001/${res.data}`
+                $('img').attr('src',imgurl)
+            }
+        }
+    })
+})
+</script>
+</html>

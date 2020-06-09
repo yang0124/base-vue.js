@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vip页面</title>
+    <link rel="stylesheet" href="/public/css/adminlte.min.css">
+    <script src="/public/js/jquery.min.js"></script>
+</head>
+<body>
+    <h1>欢迎您，尊贵的VIP用户!!!</h1>
+    <button class="logout btn btn-info">退出</button>
+</body>
+<script>
+$('.logout').click(()=>{
+    $.ajax({
+        url:'/admin/logout',
+        method:'get',
+        success:function(res){
+            if(res.code==1){
+                location = '/admin/reg/page'
+            }
+        }
+    })
+})
+</script>
+</html>

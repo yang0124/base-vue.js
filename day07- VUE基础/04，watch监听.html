@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="handleFn1">测试浅监听</button>
+        <button @click="handleFn2">测试深度监听</button>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: '#app', //初始化vue实例的容器
+        data: { //vue实例中需要使用到的数据包
+            list:[
+                {
+                    name:'张三丰',
+                    score:'100'
+                }
+            ]
+        },
+        watch: {
+            // list:function(){ //浅监听
+            //     console.log(this.list)
+            // }
+
+            list:{ //深度监听
+                handler:function(){
+                    console.log(this.list)
+                },
+                deep:true
+            }
+        },
+        methods: {
+            handleFn1(){  //浅监听事件函数
+                this.list.push({
+                    name:'张三丰1',
+                    score:'101'
+                })
+            },
+            handleFn2(){ //深监听事件函数
+                this.list[0].name = '张无忌'
+            }
+        }
+    })
+</script>
+
+</html>

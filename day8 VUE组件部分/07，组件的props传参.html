@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <my-select :list="skill"></my-select>
+        <my-select :list="time"></my-select>
+    </div>
+
+</body>
+<script src="../vue.js"></script>
+<script>
+    Vue.component('my-select',{
+        props:['list'],
+        template:`<div class="my-select">
+                    <input type="text" name="" id="" value="">
+                    <button @click="fn">查询</button>
+                    <ul>
+                        <li v-for="(item,index) in list">
+                            {{item}}
+                        </li>
+                    </ul>
+                </div>`,
+        methods:{
+            fn(){
+                alert(1111)
+            }
+        }
+    })
+
+    new Vue({
+        el:'#app',
+        data:{
+            skill:['Nodejs','vue','React'],
+            time:['2019-12-11','2019-12-12','2019-12-13']
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div v-hello="'red'">
+            <p>asdfa</p><h1>asdfasdf</h1>
+            埃里克森的减肥啦
+        </div>
+        <div v-hello="'blue'">阿斯顿发斯蒂芬</div>
+    </div>
+</body>
+<script>
+    Vue.directive('hello',{
+        inserted(el,binding,vnode){
+            console.log(el)
+            console.log(binding)
+            console.log(vnode)
+            el.style.background = binding.value
+        }
+    })
+    new Vue({
+        el:'#app', //初始化vue实例的容器
+        data:{   //vue实例中需要使用到的数据包
+           
+        }
+    })
+</script>
+</html>

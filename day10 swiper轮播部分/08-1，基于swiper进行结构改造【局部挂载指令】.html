@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="swiper.min.css">
+    <script src="swiper.min.js"></script>
+    <style>
+        body{
+            margin: 0;
+        }
+        .banner{
+            width: 100%;
+        }
+        .swiper-container{
+            position: relative;
+        }
+        .swiper-intro{
+            width: 100%;
+            line-height: 20px;
+            text-align: right;
+            padding:0 30px;
+            color: #FFF;
+            background: rgba(0,0,0,0.4);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            z-index: 2;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <my-swiper :slist="list"></my-swiper>
+        
+        {{num}}
+        <button @click="num++">触发num变化</button>
+    </div>
+</body>
+<script src="../vue.js"></script>
+<script src="https://cdn.bootcss.com/axios/0.19.0-beta.1/axios.min.js"></script>
+
+<script>
+    
+    Vue.component('my-swiper',{
+        props:['slist'],
+        data() {
+            return {
+                idx: 0
+            }
+        },
+        template:`<div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div 
+                        class="swiper-slide" 
+                        v-for="(item,index) in slist" 
+                        :key="index" 
+                        v-swipinit="index">
+                            <img class="banner" :src="item.imgUrl" :alt="item.name">
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                    <div 
+                    class="swiper-intro" 
+                    v-for="(item,index) in slist" 
+                    v-if="index==idx"
+                    :key="index">{{item.name}}</div>
+                </div>`,
+        directives:{ //指令集
+            'swipinit':{  //本组件的第一个指令
+                inserted(el,binding,vnode){
+                    let len = vnode.context.slist.length-1
+                    if(binding.value==len){
+                        console.log('swiper初始化了')
+                        new Swiper('.swiper-container',{
+                            on:{
+                                slideChange:function(){
+                                    console.log(this.activeIndex);
+                                    vnode.context.idx = this.activeIndex
+                                },
+                            }
+                        })
+                    }
+                }
+            },
+            'hello':{}  //本组件的第二个指令
+        }
+        
+    })
+    new Vue({
+        el:'#app',
+        data:{
+            num:1,
+            list:[]
+        },
+        created() {
+            let burl = `https://m.maizuo.com/gateway?type=2&cityId=110100&k=5202361`
+            axios({
+                url:burl,
+                method:'get',
+                headers:{
+                    'X-Client-Info': '{"a":"3000","ch":"1002","v":"5.0.4","e":"15761312564462471020750","bc":"110100"}',
+                    'X-Host': 'mall.cfg.common-banner'
+                }
+            }).then((res)=>{
+                console.log(res)
+                this.list = res.data.data
+            })
+        },
+        
+    })
+    
+</script>
+</html>

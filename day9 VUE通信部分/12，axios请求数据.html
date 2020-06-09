@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.19.0-beta.1/axios.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="(item,index) in list" :key="index">
+                <img :src="item.poster" alt="">
+                {{item.name}}
+            </li>
+        </ul>
+    </div>
+</body>
+<script>
+    new Vue({
+        el:'#app', // 初始化vue实例的容器
+        data:{   //   vue实例中需要使用到的数据包
+           list:[]
+        },
+        created() {
+            let url = 'https://m.maizuo.com/gateway?cityId=110100&pageNum=1&pageSize=10&type=2&k=6548058'
+            // axios.get(url).then((res)=>{
+            //     console.log(res)
+            // })
+
+            axios({
+                url,
+                method:'get',
+                headers:{
+                    'X-Client-Info': '{"a":"3000","ch":"1002","v":"5.0.4","e":"15761312564462471020750","bc":"110100"}',
+                    'X-Host': 'mall.film-ticket.film.list'
+                }
+            }).then((res)=>{
+                console.log(res.data.data.films)
+                this.list = res.data.data.films
+            })
+        }
+    })
+</script>
+</html>

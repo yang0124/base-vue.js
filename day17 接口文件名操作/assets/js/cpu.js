@@ -1,0 +1,2 @@
+window.BWEUM || (BWEUM = {});
+BWEUM.info = { "stand": true, "agentType": "browser", "agent": "browsercollector.oneapm.com/static/js/bw-send-416.7.31.js", "beaconUrl": "browsercollector.oneapm.com/beacon", "licenseKey": "FIBJj~vIbZVJ3BqR", "applicationID": 9991371 }

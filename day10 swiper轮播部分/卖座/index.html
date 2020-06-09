@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <!--<script src="js/mui.min.js"></script>-->
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css" rel="stylesheet">
+    <style type="text/css">
+    	.mui-table-view .mui-media-object{
+    		max-width: 60px;
+    		width: 60px;
+    		height: 80px;
+    	}
+		.actor{
+			max-width: 70%;
+		}
+		.mui-slider-progress-bar{
+			transition: all 0.5s;
+			transform: scaleX(0.3);
+		}
+		.has-margin{
+			margin-left: 50%;
+		}
+    </style>
+</head>
+<body>
+	<div id="app">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">卖座</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-slider">
+				<div class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<span @click="renderData(1)" class="mui-control-item">正在热映</span>
+					<span @click="renderData(2)" class="mui-control-item">即将上映</span>
+				</div>
+				<div class="mui-slider-progress-bar mui-col-xs-6" :class="num==2?'has-margin':''"></div>
+			</div>
+
+			<my-list :movielist="list" :listnum="num"></my-list>
+		</div>
+	</div>
+</body>
+<script src="../../vue.js"></script>
+<script src="https://cdn.bootcss.com/axios/0.19.0-beta.1/axios.min.js"></script>
+
+<script>
+	Vue.component('my-list',{
+		props:['movielist','listnum'],
+		template:`<transition-group 
+					tag="ul" 
+					class="mui-table-view" 
+					leave-active-class="animated fadeOut" 
+					enter-active-class="animated slideInTop" 
+					mode="out-in">
+					<li 
+					class="mui-table-view-cell mui-media" 
+					v-for="(item,index) in movielist" 
+					:key="index+'-'+listnum">
+						<a href="javascript:;">
+							<img class="mui-media-object mui-pull-left" :src="item.poster">
+							<div class="mui-media-body">
+								{{item.name}}
+								<p class="mui-ellipsis">
+									观众评分
+								</p>
+								<p class="mui-ellipsis actor">
+									主演
+									<span v-for="(act,idx) in item.actors">
+										{{act.name}}
+									</span>
+								</p>
+								<p class="mui-ellipsis">
+									中国大陆{{item.runtime}}
+								</p>
+							</div>
+							<button type="button" class="mui-btn mui-btn-red mui-btn-outlined">预购</button>
+						</a>
+					</li>
+				</transition-group>`
+	})
+    new Vue({
+        el:'#app',
+        data:{
+            num:1,
+            list:[]
+		},
+		created() {
+			this.renderData(1)
+		},
+		methods: {
+			renderData(n){
+				this.num=n;
+				let url = 'https://m.maizuo.com/gateway?cityId=110100&pageNum=1&pageSize=10&type='+n
+				axios({
+					url,
+					method:'get',
+					headers:{
+						'X-Client-Info': '{"a":"3000","ch":"1002","v":"5.0.4","e":"15761312564462471020750","bc":"110100"}',
+						'X-Host': 'mall.film-ticket.film.list'
+					}
+				}).then((res)=>{
+					console.log(res.data.data.films)
+					this.list = res.data.data.films
+				})
+			}
+		},
+    })
+    
+</script>
+</html>

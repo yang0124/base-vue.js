@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+    <link rel="stylesheet" href="msg.css">
+</head>
+<body>
+    <div id="app">
+        <div class="my-msg info">
+            <i class="iconfont icon-info"></i>
+            <span>提示文字</span>
+        </div>
+        <div class="my-msg warning">
+            <i class="iconfont icon-warning"></i>
+            <span>提示文字</span>
+        </div>
+        <div class="my-msg success">
+            <i class="iconfont icon-success"></i>
+            <span>提示文字</span>
+        </div>
+        <div class="my-msg error">
+            <i class="iconfont icon-error"></i>
+            <span>提示文字</span>
+        </div>
+        --------------------------------------------------------
+        <my-msg></my-msg>
+        <my-msg m-type="warning"></my-msg>
+        <my-msg :m-close="true" :m-center="true"></my-msg>
+        <my-msg m-style="background:red;border:2px solid blue;" :m-close="true">
+            <i slot="icon" class="iconfont icon-fabu"></i>
+            <h4 slot="title">警告！此地危险！！</h4>
+        </my-msg>
+    </div>
+</body>
+<script>
+    Vue.component('my-msg',{
+        props:{
+            'mType':{
+                type:String,
+                default:'info'
+            },
+            'mClose':{
+                type:Boolean,
+                default:false
+            },
+            'mCenter':{
+                type:Boolean,
+                default:false
+            },
+            'mStyle':{
+                type:String
+            }
+        },
+        data() {
+            return {
+                isShow:true
+            }
+        },
+        template:`<div 
+                        class="my-msg" 
+                        :class="[mCenter?'text-center':'',mType]" 
+                        :style="mStyle" 
+                        v-if="isShow"
+                    >
+                    <slot name="icon">
+                        <i class="iconfont" :class="'icon-'+mType"></i>
+                    </slot>
+                    <slot name="title">
+                        <span>提示文字</span>
+                    </slot>
+                    <i v-if="mClose" class="iconfont icon-guanbi"></i>
+                </div>`,
+        created() {
+            // let timer = setTimeout(()=>{
+            //     this.isShow = false;
+            //     clearTimeout(timer)
+            // },1000)
+        },
+    })
+    new Vue({
+        el:'#app', //初始化vue实例的容器
+        data:{   //vue实例中需要使用到的数据包
+           
+        }
+    })
+</script>
+</html>

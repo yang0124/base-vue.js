@@ -1,0 +1,138 @@
+{% extends 'adminLayout.html' %}
+
+{% block main %}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Bordered Table</h3>
+        <div class="card-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+                <input type="text" name="table_search" class="search-input form-control float-right"
+                    placeholder="Search">
+
+                <div class="input-group-append">
+                    <button type="button" class="search-btn btn btn-default"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>标题</th>
+                    <th>作者</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in listD %}
+                <tr>
+                    <td>{{item._id.toString()}}</td>
+                    <td>{{item.title}}</td>
+                    <td>
+                        {{item.author}}
+                    </td>
+                    <td>
+                        <a class="btn btn-primary btn-xs" href="/admin/edit?id={{item._id.toString()}}">编辑</a>
+                        <button class="btn btn-danger btn-xs" data-id="{{item._id.toString()}}">删除</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer clearfix">
+        <ul class="pagination pagination-sm m-0 float-right">
+            <li class="page-item prev"><a class="page-link" href="javascript:;">«</a></li>
+            {% for i in pageArr %}
+            <li class="page-item page-num">
+                <a class="page-link" href="javascript:;">{{i}}</a>
+            </li>
+            {% endfor %}
+            <li class="page-item next"><a class="page-link" href="javascript:;">»</a></li>
+        </ul>
+    </div>
+</div>
+<script>
+    $('.search-btn').click(() => { //搜索按钮
+        console.log(1111)
+        let stext = $('.search-input').val()
+        $.get(
+            `/admin/search?stext=${stext}`,
+            res => {
+                console.log(res)
+                renderData(res)
+            }
+        )
+    })
+
+    function renderData(res) {
+        if (res.code == 1) {
+            let str = '';
+            res.data.forEach((item) => {
+                str += `
+     <tr>
+         <td>${item._id.toString()}</td>
+         <td>${item.title}</td>
+         <td>
+             ${item.author}
+         </td>
+         <td>
+             <a class="btn btn-primary btn-xs" href="/admin/edit?id=${item._id.toString()}">编辑</a>
+             <button class="btn btn-danger btn-xs">删除</button>
+         </td>
+     </tr>
+     `
+            })
+            $('tbody').html(str)
+        }
+    }
+
+    $('.btn-danger').click(function () { //删除文章
+        let id = $(this).attr('data-id');
+        $.get(`/admin/del?id=${id}`, (res) => {
+            if (res.code == 1) {
+                $(this).closest('tr').remove()
+            }
+        })
+    })
+
+    let p = 1;
+    $('.page-num').eq(0).addClass('active');
+    $('.page-num a').click(function () { //分页切换
+        p = $(this).html()
+        $('.page-num').removeClass('active')
+        $(this).closest('li').addClass('active')
+        $.ajax({
+            url: `/admin/list/page?p=${p}`,
+            method: 'get',
+            success: (res) => {
+                console.log(res)
+                renderData(res)
+            }
+        })
+    })
+
+    $('.next').click(function () { //切换下一页
+        if(p<'{{pageArr.length}}'){
+            p++;
+            $('.page-num').removeClass('active')
+            $('.page-num').closest('li').eq(p-1).addClass('active')
+        }else{
+            alert('已经是最后一页了')
+            return false;
+        }
+        $.ajax({
+            url: `/admin/list/page?p=${p}`,
+            method: 'get',
+            success: (res) => {
+                console.log(res)
+                renderData(res)
+            }
+        })
+    })
+</script>
+{% endblock %}

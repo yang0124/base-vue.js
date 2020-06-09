@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+    <script src="https://cdn.bootcss.com/vue-router/3.1.3/vue-router.js"></script>
+    <style>
+        li{
+            width: 100px;
+            height:40px;
+            background: #d8d8d8;
+            display: inline-block;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <ul>
+            <li>
+                <router-link to="/">
+                    首页
+                </router-link>
+            </li>
+            <li>
+                <router-link to="/prod">
+                    产品
+                </router-link>
+            </li>
+            <li>
+                <router-link to="/contact">
+                    联系
+                </router-link>
+            </li>
+        </ul>
+        <router-view></router-view>
+    </div>
+    
+</body>
+<script>
+    let home = {
+        template:`<div>我是首页</div>`
+    }
+    let product = {
+        template:`<div>我是产品</div>`
+    }
+    let contact = {
+        template:`<div>我是联系</div>`
+    }
+
+    let login = {
+        template:`<div>
+                    我是登录页
+                    <button @click="handleLogin">登录</button>
+                 </div>`,
+        methods:{ 
+            handleLogin(){
+                loginState = true
+            }
+        }
+    }
+
+    let router = new VueRouter({
+        routes:[
+            {
+                path:'/',
+                component:home
+            },
+            {
+                path:'/prod',
+                component:product
+            },
+            {
+                path:'/contact',
+                component:contact
+            },
+            {
+                path:'/login',
+                component:login
+            }
+            
+        ]
+    })
+    var loginState = false;  //模拟登录状态
+    router.beforeEach((to, from, next) => {
+        // to and from are both route objects. must call `next`.
+        // console.log(from)
+        // console.log(to)
+        if(to.path!='/prod'){  //如果不是产品组件，直接放行
+            next()
+        }else{  // 如果想访问产品组件，要求用户登录
+            if(loginState){ //如果已经登录，则放行
+                next()
+            }else{
+                next({
+                    path:'/login'
+                })
+            }
+        }
+    })
+
+    new Vue({
+        el:'#app',
+        router  //路由注入
+    })
+</script>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <button v-on:click="fState='all'">所有</button>
+        <button v-on:click="fState='good'">及格</button>
+        <button v-on:click="fState='bad'">不及格</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>姓名</th>
+                    <th>成绩</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,index) in filterList" >
+                    <td>{{index}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.score}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+<script>
+    var human = [
+        {name:'张三丰',score:100},
+        {name:'张无忌',score:98},
+        {name:'张翠山',score:59},
+        {name:'灭绝师太',score:70},
+        {name:'赵敏',score:80}
+    ]
+    new Vue({
+        el: '#app', //初始化vue实例的容器
+        data: { //vue实例中需要使用到的数据包
+            list:human,
+            fState:'good'  //all 所有  good 及格  bad 不及格
+        },
+        computed: {
+            filterList(){
+                switch (this.fState) {
+                    case 'all':
+                        return this.list
+                        break;
+                     case 'good':
+                        return this.list.filter((obj)=>{
+                            return obj.score>70
+                        })
+                        break;
+                     case 'bad':
+                        return this.list.filter((obj)=>{
+                            return obj.score<=70
+                        })
+                     break;
+                    default:
+                        break;
+                }
+            }
+        }
+    })
+</script>
+
+</html>

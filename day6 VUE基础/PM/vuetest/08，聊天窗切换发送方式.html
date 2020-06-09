@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="msg" v-on:keydown.enter="sendMsg" v-if="num==0">
+        <input type="text" v-model="msg" v-on:keydown.ctrl.enter="sendMsg" v-else>
+        <select v-model="num">
+            <option value="0">
+                按下enter发送
+            </option>
+            <option value="1">
+                按下ctrl+enter发送
+            </option>
+        </select>
+        <div class="cont">
+            <p v-for="(item,index) in msglist">
+                {{item}}
+            </p>
+        </div>
+    </div>
+</body>
+<script>
+    new Vue({
+        el:'#app', //初始化vue实例的容器
+        data:{   //vue实例中需要使用到的数据包
+           num:0,  //控制不同input框的显示
+           msg:'hello world',
+           msglist:[
+               '你好，在吗？',
+               '不在'
+           ]
+        },
+        methods: {
+            sendMsg(){
+                this.msglist.push(this.msg)
+                this.msg=''
+            }
+        },
+    })
+</script>
+</html>

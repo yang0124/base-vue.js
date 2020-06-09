@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+    <script src="https://cdn.bootcss.com/vue-router/3.1.3/vue-router.js"></script>
+    <style>
+        li{
+            width: 100px;
+            height:40px;
+            background: #d8d8d8;
+            display: inline-block;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <ul>
+            <li @click="handleNav('home')">
+                首页
+            </li>
+            <li @click="handleNav('product')">
+                产品
+            </li>
+            <li @click="handleNav('contact')">
+                联系
+            </li>
+        </ul>
+        <router-view></router-view>
+    </div>
+    
+</body>
+<script>
+    let home = {
+        template:`<div>我是首页</div>`
+    }
+    let product = {
+        template:`<div>我是产品 {{$route.params.id}}</div>`
+    }
+    let contact = {
+        template:`<div>我是联系</div>`
+    }
+
+    let router = new VueRouter({
+        routes:[
+            {
+                path:'/',
+                component:home,
+                name:'home'
+            },
+            {
+                path:'/prod',
+                component:product,
+                name:'product'
+            },
+            {
+                path:'/contact',
+                component:contact,
+                name:'contact'
+            }
+        ]
+    })
+
+    new Vue({
+        el:'#app',
+        router,  //路由注入
+        methods: {
+            handleNav(target){
+                this.$router.push({
+                    name:target,
+                    params:{
+                        id:'233',
+                        name:'编程式导航传参'
+                    }
+                })
+            }
+        },
+    })
+</script>
+</html>

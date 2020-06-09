@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="vue.js"></script>
+    <style>
+        .outer{
+            padding: 20px;
+            border: 1px solid #000
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- 1，不使用事件函数的触发方式 -->
+       <button v-on:click="num++">数字累加{{num}}</button>
+
+       <!-- 2，通过事件对象获取到dom元素,利用事件对象 -->
+       <div v-on:click="fn($event,'hello')">我是div</div>
+
+       <!-- 2-1，事件函数参数传递-->
+       <div v-on:click="fn('hello')">我是div</div>
+
+       <!-- 3，事件修饰符 -->
+       <div class="outer" v-on:click="fn1">
+           <div class="outer" v-on:click="fn1">
+               <div class="outer" v-on:click.stop="fn1"></div>
+           </div>
+       </div>
+
+       <!-- 4，键盘事件 -->
+       <input type="text" v-on:keydown.13="fn2($event)">
+    </div>
+</body>
+<script>
+    new Vue({
+        el:'#app',
+        data:{
+            num:0
+        },
+        methods: {
+            fn(ev,str){
+                console.log(ev.target)
+                ev.target.style.background = 'red';
+                alert(str)
+            },
+            fn1(){
+                alert(1)
+            },
+            fn2(ev){
+                console.log(ev.target.value)
+            }
+        },
+    })
+</script>
+</html>

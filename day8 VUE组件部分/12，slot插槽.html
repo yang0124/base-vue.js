@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-comp>
+            <h1 slot="s1">我是新的插槽内容1</h1>
+            <h1 slot="s2">我是新的插槽内容2</h1>
+            <h1>我是新的插槽内容3</h1>
+        </my-comp>
+    </div>
+</body>
+<script>
+    Vue.component('my-comp',{
+        template:`<div>
+                        我是my-comp组件
+                        <slot name="s1"></slot>
+                        <slot></slot>
+                        <slot name="s2"></slot>
+                </div>`
+    })
+    new Vue({
+        el:'#app', //初始化vue实例的容器
+        data:{   //vue实例中需要使用到的数据包
+           
+        }
+    })
+</script>
+</html>
